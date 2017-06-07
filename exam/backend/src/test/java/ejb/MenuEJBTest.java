@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJBException;
-import javax.validation.constraints.AssertTrue;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class MenuEJBTest extends EJBTestBase{
         menuEJB.createMenu(LocalDate.now().plusDays(1), dishes);
         menuEJB.createMenu(LocalDate.now().minusDays(1), dishes);
 
-        assertEquals(menuId, menuEJB.getClosestMenu(LocalDate.now()).getId());
+        assertEquals(menuId, menuEJB.getClosestMenu().getId());
     }
 
     @Test

@@ -13,7 +13,7 @@ public class HomePageObject extends PageObject{
 
     @Override
     public boolean isOnPage() {
-        return driver.getTitle().equals("Home page");
+        return driver.getTitle().equals("MyCantina Home Page");
     }
 
     public HomePageObject toStartingPage() {

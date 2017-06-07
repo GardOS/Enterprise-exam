@@ -14,21 +14,13 @@
 
     <ui:define name="content">
 
-        <p><h:link value="Link to Dishes" outcome="dishes.jsf" id="dishLink"/></p>
-        <p><h:link value="Link to Menu" outcome="menu.jsf" id="menuLink"/></p>
+        <h1>Hello.</h1>
 
     </ui:define>
 
     <ui:define name="footer">
 
-        <c:choose>
-            <c:when test="#{menuController.closestMenu == null}">
-                <h3>No Menu avaiable</h3>
-            </c:when>
-            <c:otherwise>
-
-            </c:otherwise>
-        </c:choose>
+        <h1>Bye.</h1>
 
     </ui:define>
 

@@ -36,7 +36,9 @@ public class MenuEJB {
     }
 
     //TODO: Optimize
-    public Menu getClosestMenu(LocalDate date){
+    public Menu getClosestMenu(){
+        LocalDate date = LocalDate.now();
+
         Menu closestMenu = null;
 
         closestMenu = getMenu(date, "present");
