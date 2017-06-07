@@ -1,5 +1,7 @@
 package ejb;
 
+import entity.Dish;
+import entity.Menu;
 import entity.User;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -13,7 +15,7 @@ import javax.ejb.EJB;
 /**
  * Created by Gard on 06.06.2017.
  */
-public abstract class EjbTestBase {
+public abstract class EJBTestBase {
 
     @Deployment
     public static JavaArchive createDeployment() {
@@ -27,10 +29,11 @@ public abstract class EjbTestBase {
     @EJB
     protected UserEJB userEJB;
 
-    /*
     @EJB
-    protected PostEJB postEJB;
-    */
+    protected DishEJB dishEJB;
+
+    @EJB
+    protected MenuEJB menuEJB;
 
     @EJB
     private DeleterEJB deleterEJB;
@@ -38,9 +41,9 @@ public abstract class EjbTestBase {
     @Before
     @After
     public void emptyDatabase(){
-        //postEJB.getAllPostsByTime().stream().forEach(p -> deleterEJB.deleteEntityById(Post.class, p.getId()));
-
         deleterEJB.deleteEntities(User.class);
+        deleterEJB.deleteEntities(Dish.class);
+        deleterEJB.deleteEntities(Menu.class);
     }
 
     protected boolean createUser(String userId){

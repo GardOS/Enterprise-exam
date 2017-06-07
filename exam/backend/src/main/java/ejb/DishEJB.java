@@ -21,16 +21,16 @@ public class DishEJB implements Serializable{
     public DishEJB() {
     }
 
-    public boolean createDish(String name, String description) {
-        if (name == null || name.isEmpty() || description == null || description.isEmpty()){
-            return false;
-        }
-
+    public Long createDish(@NotNull String name, @NotNull String description) {
         Dish dish = new Dish();
         dish.setName(name);
         dish.setDescription(description);
         em.persist(dish);
-        return true;
+        return dish.getId();
+    }
+
+    public Dish getDish(Long dishId){
+        return em.find(Dish.class, dishId);
     }
 
     public void removeDish(@NotNull Long dishId) {

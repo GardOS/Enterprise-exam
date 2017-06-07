@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -21,17 +22,17 @@ public class MenuEJB {
     public MenuEJB() {
     }
 
-    public boolean createMenu(LocalDate date, List<Dish> dishes) {
-        if (date == null || dishes == null){
-            return false;
-        }
-
+    public Long createMenu(@NotNull LocalDate date, @NotNull List<Dish> dishes) {
         Menu menu = new Menu();
         menu.setDate(date);
         menu.setDishes(dishes);
 
         em.persist(menu);
-        return true;
+        return menu.getId();
+    }
+
+    public Menu getMenu(Long menuId){
+        return em.find(Menu.class, menuId);
     }
 
     //TODO: Optimize
@@ -52,7 +53,6 @@ public class MenuEJB {
         if (closestMenu != null){
             return closestMenu;
         }
-
         return closestMenu;
     }
 

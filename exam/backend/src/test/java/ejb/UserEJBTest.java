@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
  * Created by Gard on 06.06.2017.
  */
 @RunWith(Arquillian.class)
-public class UserEJBTest extends EjbTestBase{
+public class UserEJBTest extends EJBTestBase {
 
     @Test
     public void testCanCreateAUser(){
