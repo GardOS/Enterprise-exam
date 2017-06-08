@@ -29,7 +29,7 @@ public class DishEJB implements Serializable{
         return dish.getId();
     }
 
-    public Dish getDish(Long dishId){
+    public Dish getDish(@NotNull Long dishId){
         return em.find(Dish.class, dishId);
     }
 

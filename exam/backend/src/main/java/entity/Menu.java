@@ -3,6 +3,7 @@ package entity;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
@@ -15,12 +16,10 @@ public class Menu {
     @Id
     @GeneratedValue
     private Long id;
-
     @Column
     @NotNull
     private LocalDate date;
-
-    @OneToMany(mappedBy = "menu")
+    @ManyToMany(fetch = FetchType.EAGER)
     @NotEmpty
     private List<Dish> dishes;
 
@@ -45,6 +44,11 @@ public class Menu {
 
     public List<Dish> getDishes() {
         return dishes;
+    }
+
+    //TODO: Remove
+    public int getDishSize(){
+        return dishes.size();
     }
 
     public void setDishes(List<Dish> dishes) {

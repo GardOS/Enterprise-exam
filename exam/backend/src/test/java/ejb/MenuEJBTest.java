@@ -26,8 +26,7 @@ public class MenuEJBTest extends EJBTestBase{
 
     @Test
     public void testGetCurrentMenu(){
-        List<Dish> dishes = new ArrayList<>();
-        dishes.add(new Dish());
+        List<Dish> dishes = getListWithPersistedDish();
 
         Long menuId = menuEJB.createMenu(LocalDate.now(),dishes);
         menuEJB.createMenu(LocalDate.now().plusDays(1), dishes);
@@ -38,8 +37,8 @@ public class MenuEJBTest extends EJBTestBase{
 
     @Test
     public void testGetAbsentPreviousMenu(){
-        List<Dish> dishes = new ArrayList<>();
-        dishes.add(new Dish());
+        List<Dish> dishes = getListWithPersistedDish();
+
         menuEJB.createMenu(LocalDate.now(),dishes);
         menuEJB.createMenu(LocalDate.now().plusDays(1), dishes);
 
@@ -48,8 +47,8 @@ public class MenuEJBTest extends EJBTestBase{
 
     @Test
     public void testGetAbsentNextMenu(){
-        List<Dish> dishes = new ArrayList<>();
-        dishes.add(new Dish());
+        List<Dish> dishes = getListWithPersistedDish();
+
         menuEJB.createMenu(LocalDate.now(), dishes);
         menuEJB.createMenu(LocalDate.now().minusDays(1), dishes);
 
@@ -58,8 +57,8 @@ public class MenuEJBTest extends EJBTestBase{
 
     @Test
     public void testGetPreviousMenu(){
-        List<Dish> dishes = new ArrayList<>();
-        dishes.add(new Dish());
+        List<Dish> dishes = getListWithPersistedDish();
+
         menuEJB.createMenu(LocalDate.now(),dishes);
         menuEJB.createMenu(LocalDate.now().plusDays(1), dishes);
         Long menuId = menuEJB.createMenu(LocalDate.now().minusDays(1), dishes);
@@ -69,8 +68,7 @@ public class MenuEJBTest extends EJBTestBase{
 
     @Test
     public void testThreeMenus(){
-        List<Dish> dishes = new ArrayList<>();
-        dishes.add(new Dish());
+        List<Dish> dishes = getListWithPersistedDish();
 
         Menu today = menuEJB.getMenu(menuEJB.createMenu(LocalDate.now(),dishes));
         Menu tomorrow =  menuEJB.getMenu(menuEJB.createMenu(LocalDate.now().plusDays(1), dishes));

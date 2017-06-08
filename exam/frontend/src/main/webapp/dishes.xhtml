@@ -10,20 +10,61 @@
 
 <ui:composition template="layout.xhtml">
 
-    <ui:define name="title">MyCantina Home Page</ui:define>
+    <ui:define name="title">Dishes</ui:define>
 
     <ui:define name="content">
+        <!--
+        <c:choose>
+            <c:when test="#{!loginController.loggedIn}">
+                <h3>You must be logged in to create a dish</h3>
+            </c:when>
+            <c:otherwise>
+            -->
+        <h:form id="newDishForm">
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Dish Name: "/>
+                <h:inputText value="#{dishController.formName}" id="dishName"/>
 
-        <h1>Hello.</h1>
+                <h:outputLabel value="Dish Description: "/>
+                <h:inputTextarea value="#{dishController.formDescription}" id="dishDescription"/>
+            </h:panelGrid>
 
+            <h:commandButton value="Create dish" action="#{dishController.createDish}" id="createDish"/>
+        </h:form>
+        <!--
+            </c:otherwise>
+        </c:choose>
+        -->
+
+        <hr/>
+
+        <h:outputText value="Dishcount: #{dishController.countDishes()}"/>
+        <h3>Registered dishes: </h3>
+        <c:choose>
+            <c:when test="#{dishController.countDishes() == 0}">
+                <h3>None</h3>
+            </c:when>
+            <c:otherwise>
+                <h:dataTable value="#{dishController.getAllDishes()}" var="dish" border="1" id="dishTable">
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                        <h:outputText value="#{dish.name}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Description</f:facet>
+                        <h:outputText value="#{dish.description}"/>
+                    </h:column>
+                    <c:if test="#{loginController.loggedIn}">
+                        <h:column>
+                            <f:facet name="header">Action</f:facet>
+                            <h:form>
+                                <h:commandLink value="Delete" action="#{dishController.removeDish(dish.id)}"/>
+                            </h:form>
+                        </h:column>
+                    </c:if>
+                </h:dataTable>
+            </c:otherwise>
+        </c:choose>
     </ui:define>
-
-    <ui:define name="footer">
-
-        <h1>Bye.</h1>
-
-    </ui:define>
-
 </ui:composition>
-
 </html>

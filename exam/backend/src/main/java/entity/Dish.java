@@ -3,6 +3,7 @@ package entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * Created by Gard on 07.06.2017.
@@ -18,9 +19,8 @@ public class Dish {
     @NotNull
     @Size(max = 128)
     private String description;
-    @ManyToOne
-    @JoinColumn(name="menu")
-    private Menu menu;
+    @ManyToMany(mappedBy = "dishes")
+    private List<Menu> menus;
 
     public Dish() {
     }
@@ -49,11 +49,11 @@ public class Dish {
         this.description = description;
     }
 
-    public Menu getMenu() {
-        return menu;
+    public List<Menu> getMenus() {
+        return menus;
     }
 
-    public void setMenu(Menu menu) {
-        this.menu = menu;
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
     }
 }

@@ -17,19 +17,38 @@
         <p><h:link value="Link to Dishes" outcome="dishes.jsf" id="dishLink"/></p>
         <p><h:link value="Link to Menu" outcome="menu.jsf" id="menuLink"/></p>
 
-    </ui:define>
-
-    <ui:define name="footer">
+        <hr/>
 
         <c:choose>
             <c:when test="#{menuController.closestMenu == null}">
-                <h3>No Menu avaiable</h3>
+                <h3>No Menu available</h3>
             </c:when>
             <c:otherwise>
+                <h3><h:outputText value="Menu for #{menuController.closestMenu.date}"/></h3>
+                <h:dataTable value="#{menuController.closestMenu.dishes}" var="dish" border="1" id="menuTable">
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                        <h:outputText value="#{dish.name}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Description</f:facet>
+                        <h:outputText value="#{dish.description}"/>
+                    </h:column>
+                </h:dataTable>
 
+                <h3><h:outputText value="List of menus"/></h3>
+                <h:dataTable value="#{menuController.allMenus}" var="menu" border="1" id="menuTable2">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value="#{menu.id}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Size</f:facet>
+                        <h:outputText value="#{menu.dishSize}"/>
+                    </h:column>
+                </h:dataTable>
             </c:otherwise>
         </c:choose>
-
     </ui:define>
 
 </ui:composition>

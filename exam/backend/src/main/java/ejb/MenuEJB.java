@@ -28,11 +28,17 @@ public class MenuEJB {
         menu.setDishes(dishes);
 
         em.persist(menu);
+
         return menu.getId();
     }
 
     public Menu getMenu(Long menuId){
         return em.find(Menu.class, menuId);
+    }
+
+    public List<Menu> getAllMenus() {
+        Query query = em.createQuery("SELECT menu FROM Menu menu");
+        return query.getResultList();
     }
 
     //TODO: Optimize

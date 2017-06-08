@@ -11,6 +11,8 @@ import org.junit.Before;
 import util.DeleterEJB;
 
 import javax.ejb.EJB;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Gard on 06.06.2017.
@@ -52,6 +54,13 @@ public abstract class EJBTestBase {
 
     protected boolean createUser(String user, String password){
         return userEJB.createUser(user, password,"FirstName","LastName");
+    }
+
+    protected List<Dish> getListWithPersistedDish(){
+        List<Dish> dishes = new ArrayList<>();
+        Long dishId = dishEJB.createDish("name", "description");
+        dishes.add(dishEJB.getDish(dishId));
+        return dishes;
     }
 
     protected boolean login(String user, String password){
