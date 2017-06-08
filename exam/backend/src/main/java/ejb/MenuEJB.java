@@ -36,6 +36,12 @@ public class MenuEJB {
         return em.find(Menu.class, menuId);
     }
 
+    public Menu getMenuByDate(LocalDate date){
+        Query query = em.createQuery("SELECT menu FROM Menu menu WHERE menu.date = :date");
+        query.setParameter("date", date);
+        return (Menu)query.getSingleResult();
+    }
+
     public List<Menu> getAllMenus() {
         Query query = em.createQuery("SELECT menu FROM Menu menu");
         return query.getResultList();

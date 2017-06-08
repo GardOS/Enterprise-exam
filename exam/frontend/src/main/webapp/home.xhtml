@@ -24,23 +24,57 @@
                 <h3>No Menu available</h3>
             </c:when>
             <c:otherwise>
-                <h3><h:outputText value="Menu for #{menuController.closestMenu.date}"/></h3>
-                <h:dataTable value="#{menuController.closestMenu.dishes}" var="dish" border="1" id="menuTable">
-                    <h:column>
-                        <f:facet name="header">Name</f:facet>
-                        <h:outputText value="#{dish.name}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Description</f:facet>
-                        <h:outputText value="#{dish.description}"/>
-                    </h:column>
-                </h:dataTable>
+                <c:set var="dateParam" value="#{param['date_param']}"/>
 
+                <!--Check if invalid-->
+                <c:if test="#{menuController.checkIfInvalidDate(dateParam)}">
+                    <c:set var="dateParam" value="#{menuController.closestMenu.date.toString()}"/>
+                </c:if>
+
+                <!--Past-->
+                <c:if test="#{menuController.getClosestMenuInPast(dateParam) != null}">
+                    <p>
+                        <h:link value="Show previous (#{menuController.getClosestMenuInPast(dateParam).date})" outcome="home.jsf">
+                            <f:param name="date_param" value="#{menuController.getClosestMenuInPast(dateParam).date}"/>
+                        </h:link>
+                    </p>
+                </c:if>
+
+                <!--Present-->
+                <p>
+                    <h:link value="Show default" outcome="home.jsf"/>
+                </p>
+                <!--Future-->
+                <p>
+                    <c:if test="#{menuController.getClosestMenuInFuture(dateParam) != null}">
+                        <h:link value="Show next (#{menuController.getClosestMenuInFuture(dateParam).date})" outcome="home.jsf">
+                            <f:param name="date_param" value="#{menuController.getClosestMenuInFuture(dateParam).date}"/>
+                        </h:link>
+                    </c:if>
+                </p>
+
+                <c:if test="#{dateParam != null}">
+                    <h3><h:outputText value="Menu for #{menuController.getMenuByDateString(dateParam).date}" id="currentMenuDate"/></h3>
+                    <h:dataTable value="#{menuController.getMenuByDateString(dateParam).dishes}" var="dish" border="1" id="menuTable">
+                        <h:column>
+                            <f:facet name="header">Name</f:facet>
+                            <h:outputText value="#{dish.name}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Description</f:facet>
+                            <h:outputText value="#{dish.description}"/>
+                        </h:column>
+                    </h:dataTable>
+                </c:if>
                 <h3><h:outputText value="List of menus"/></h3>
                 <h:dataTable value="#{menuController.allMenus}" var="menu" border="1" id="menuTable2">
                     <h:column>
                         <f:facet name="header">ID</f:facet>
                         <h:outputText value="#{menu.id}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Size</f:facet>
+                        <h:outputText value="#{menu.date}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">Size</f:facet>

@@ -19,33 +19,22 @@
                 <h3>No dishes</h3>
             </c:when>
             <c:otherwise>
-                <h:form>
+                <h:form id="newMenuForm">
                     <h:inputText value="#{menuController.formDate}" id="formDate"/>
-                    <h:commandButton value="Create" action="#{menuController.createMenu}"/>
+                    <h:commandButton value="Create" action="#{menuController.createMenu}" id="createMenu"/>
                     <h:dataTable value="#{dishController.allDishes}" var="dish" border="1" id="dishTable">
-                        <h:column>
-                            <f:facet name="header">id</f:facet>
-                            <h:outputText value="#{dish.id}"/>
-                        </h:column>
                         <h:column>
                             <f:facet name="header">Name</f:facet>
                             <h:outputText value="#{dish.name}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">Include</f:facet>
-                            <h:selectBooleanCheckbox value="#{menuController.dishesInMenu[dish.id]}"/>
-                            <!--
-                                <h:selectBooleanCheckbox
-                                        value="#{menuController.dishesInMenu[dish.id]}"
-                                        onclick="submit()"
-                                        valueChangeListener="#{menuController.updateDishInMenu(dish.id, !menuController.dishesInMenu[dish.id])}"/>
-                            -->
+                            <h:selectBooleanCheckbox value="#{menuController.dishesInMenu[dish.id]}" id="checkBox"/>
                         </h:column>
                     </h:dataTable>
                 </h:form>
             </c:otherwise>
         </c:choose>
-
     </ui:define>
 
     <ui:define name="footer">

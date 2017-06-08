@@ -58,7 +58,6 @@ public class MenuEJBTest extends EJBTestBase{
     @Test
     public void testGetPreviousMenu(){
         List<Dish> dishes = getListWithPersistedDish();
-
         menuEJB.createMenu(LocalDate.now(),dishes);
         menuEJB.createMenu(LocalDate.now().plusDays(1), dishes);
         Long menuId = menuEJB.createMenu(LocalDate.now().minusDays(1), dishes);

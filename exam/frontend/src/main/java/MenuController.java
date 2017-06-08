@@ -5,7 +5,7 @@ import entity.Menu;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -14,12 +14,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.DataFormatException;
 
 /**
  * Created by Gard on 07.06.2017.
  */
 @Named
-@SessionScoped
+@RequestScoped
 public class MenuController implements Serializable {
 
     @EJB
@@ -69,12 +70,26 @@ public class MenuController implements Serializable {
         return menuEJB.getClosestMenu();
     }
 
-    public Menu getClosestMenuInFuture(){
-        return menuEJB.getClosestMenuInFuture(formDate);
+    public boolean checkIfInvalidDate(String date){
+        try{
+            LocalDate.parse(date);
+            return false;
+        }catch (Exception e){
+
+        }
+        return true;
     }
 
-    public Menu getClosestMenuInPast(){
-        return menuEJB.getClosestMenuInPast(formDate);
+    public Menu getClosestMenuInFuture(String date){
+        return menuEJB.getClosestMenuInFuture(LocalDate.parse(date));
+    }
+
+    public Menu getClosestMenuInPast(String date){
+        return menuEJB.getClosestMenuInPast(LocalDate.parse(date));
+    }
+
+    public Menu getMenuByDateString(String date){
+        return menuEJB.getMenuByDate(LocalDate.parse(date));
     }
 
     public String getFormDate() {
@@ -84,14 +99,6 @@ public class MenuController implements Serializable {
 
     public void setFormDate(String formDate) {
         this.formDate = LocalDate.parse(formDate);
-    }
-
-    public ArrayList<Dish> getDishes() {
-        return dishes;
-    }
-
-    public void setDishes(ArrayList<Dish> dishes) {
-        this.dishes = dishes;
     }
 
     public Map<Long, Boolean> getDishesInMenu() {

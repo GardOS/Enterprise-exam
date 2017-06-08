@@ -24,6 +24,19 @@ public class HomePageObject extends PageObject{
         return this;
     }
 
+    public String getCurrentMenuDate(){
+        return driver.findElement(By.id("currentMenuDate")).getText();
+    }
+
+    public int countDishesInMenu(){
+        return driver.findElements(By.xpath("//table[@id='menuTable']/tbody/tr")).size();
+
+    }
+
+    public boolean checkIfTableContainsName(String name){
+        return name.equals(driver.findElement(By.xpath("//table[@id='menuTable']/tbody/tr/td[contains(text(),'" + name + "')]")).getText());
+    }
+
     public LoginPageObject toLogin() {
         if (isLoggedIn()) {
             logout();
@@ -32,6 +45,18 @@ public class HomePageObject extends PageObject{
         driver.findElement(By.id("login")).click();
         waitForPageToLoad();
         return new LoginPageObject(driver);
+    }
+
+    public DishPageObject toDishes() {
+        driver.findElement(By.id("dishLink")).click();
+        waitForPageToLoad();
+        return new DishPageObject(driver);
+    }
+
+    public MenuPageObject toMenu() {
+        driver.findElement(By.id("menuLink")).click();
+        waitForPageToLoad();
+        return new MenuPageObject(driver);
     }
 }
 

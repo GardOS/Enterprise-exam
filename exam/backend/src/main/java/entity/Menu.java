@@ -16,7 +16,7 @@ public class Menu {
     @Id
     @GeneratedValue
     private Long id;
-    @Column
+    @Column(unique = true)
     @NotNull
     private LocalDate date;
     @ManyToMany(fetch = FetchType.EAGER)
