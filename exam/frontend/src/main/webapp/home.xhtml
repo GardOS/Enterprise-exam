@@ -34,7 +34,7 @@
                 <!--Past-->
                 <c:if test="#{menuController.getClosestMenuInPast(dateParam) != null}">
                     <p>
-                        <h:link value="Show previous (#{menuController.getClosestMenuInPast(dateParam).date})" outcome="home.jsf">
+                        <h:link value="Show previous (#{menuController.getClosestMenuInPast(dateParam).date})" id="previousLink" outcome="home.jsf">
                             <f:param name="date_param" value="#{menuController.getClosestMenuInPast(dateParam).date}"/>
                         </h:link>
                     </p>
@@ -42,12 +42,12 @@
 
                 <!--Present-->
                 <p>
-                    <h:link value="Show default" outcome="home.jsf"/>
+                    <h:link value="Show default" outcome="home.jsf" id="defaultLink"/>
                 </p>
                 <!--Future-->
                 <p>
                     <c:if test="#{menuController.getClosestMenuInFuture(dateParam) != null}">
-                        <h:link value="Show next (#{menuController.getClosestMenuInFuture(dateParam).date})" outcome="home.jsf">
+                        <h:link value="Show next (#{menuController.getClosestMenuInFuture(dateParam).date})" id="nextLink" outcome="home.jsf">
                             <f:param name="date_param" value="#{menuController.getClosestMenuInFuture(dateParam).date}"/>
                         </h:link>
                     </c:if>
@@ -75,10 +75,6 @@
                     <h:column>
                         <f:facet name="header">Size</f:facet>
                         <h:outputText value="#{menu.date}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Size</f:facet>
-                        <h:outputText value="#{menu.dishSize}"/>
                     </h:column>
                 </h:dataTable>
             </c:otherwise>

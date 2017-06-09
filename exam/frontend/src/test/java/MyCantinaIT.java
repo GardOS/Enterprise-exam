@@ -34,6 +34,7 @@ public class MyCantinaIT extends WebTestBase{
 
     @Test
     public void testMenu(){
+        int dishCount = home.countDishesInMenu();
         DishPageObject dishes = home.toDishes();
         assertTrue(dishes.isOnPage());
 
@@ -60,18 +61,56 @@ public class MyCantinaIT extends WebTestBase{
 
         menu.createUniqueMenu(LocalDate.now());
 
-        //Show Default
+        home.clickDefaultLink();
 
         assertEquals("Menu for " + LocalDate.now().toString(), home.getCurrentMenuDate());
 
         assertTrue(home.checkIfTableContainsName(dish1));
         assertTrue(home.checkIfTableContainsName(dish2));
-        assertEquals(2, home.countDishesInMenu());
+        assertEquals(dishCount + 2, home.countDishesInMenu());
     }
 
     @Test
     public void testDifferentDates(){
+        DishPageObject dishes = home.toDishes();
+        assertTrue(dishes.isOnPage());
 
+        String dish1 = getUniqueId();
+        dishes.createUniqueDish(dish1);
+
+        home = home.toStartingPage();
+        MenuPageObject menu = home.toMenu();
+        assertTrue(menu.isOnPage());
+
+        //Menu 1
+        menu.clickCheckbox(dish1);
+        menu.createUniqueMenu(LocalDate.now().minusDays(1));
+        menu = home.toMenu();
+
+        //Menu 2
+        menu.clickCheckbox(dish1);
+        menu.createUniqueMenu(LocalDate.now());
+        menu = home.toMenu();
+
+        //Menu 3
+        menu.clickCheckbox(dish1);
+        menu.createUniqueMenu(LocalDate.now().plusDays(1));
+
+        home.clickDefaultLink();
+
+        assertEquals("Menu for " + LocalDate.now().toString(), home.getCurrentMenuDate());
+
+        home.clickNextLink();
+
+        assertEquals("Menu for " + LocalDate.now().plusDays(1).toString(), home.getCurrentMenuDate());
+
+        home.clickPreviousLink();
+
+        assertEquals("Menu for " + LocalDate.now().toString(), home.getCurrentMenuDate());
+
+        home.clickPreviousLink();
+
+        assertEquals("Menu for " + LocalDate.now().minusDays(1).toString(), home.getCurrentMenuDate());
     }
 
     //Own tests

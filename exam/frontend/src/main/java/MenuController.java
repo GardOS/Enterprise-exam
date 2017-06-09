@@ -49,7 +49,11 @@ public class MenuController implements Serializable {
                     dishes.add(dishEJB.getDish(id));
                 }
             }
-            menuEJB.createMenu(formDate, dishes);
+            if (menuEJB.getMenuByDate(formDate) != null){
+                menuEJB.updateMenu(dishes, formDate);
+            } else {
+                menuEJB.createMenu(formDate, dishes);
+            }
 
             //Clear list/map
             dishes.clear();

@@ -24,13 +24,30 @@ public class HomePageObject extends PageObject{
         return this;
     }
 
+    public void clickDefaultLink(){
+        if (driver.findElement(By.id("defaultLink")) != null){
+            driver.findElement(By.id("defaultLink")).click();
+        }
+    }
+
+    public void clickNextLink(){
+        if (driver.findElement(By.id("nextLink")) != null){
+            driver.findElement(By.id("nextLink")).click();
+        }
+    }
+
+    public void clickPreviousLink(){
+        if (driver.findElement(By.id("previousLink")) != null){
+            driver.findElement(By.id("previousLink")).click();
+        }
+    }
+
     public String getCurrentMenuDate(){
         return driver.findElement(By.id("currentMenuDate")).getText();
     }
 
     public int countDishesInMenu(){
         return driver.findElements(By.xpath("//table[@id='menuTable']/tbody/tr")).size();
-
     }
 
     public boolean checkIfTableContainsName(String name){

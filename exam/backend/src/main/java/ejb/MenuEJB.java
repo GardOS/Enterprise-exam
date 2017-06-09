@@ -3,6 +3,7 @@ package ejb;
 import entity.Dish;
 import entity.Menu;
 
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,6 +33,13 @@ public class MenuEJB {
         return menu.getId();
     }
 
+    public Menu updateMenu(List<Dish> dishes, LocalDate date){
+        Menu menu = getMenuByDate(date);
+        menu.setDishes(dishes);
+        menu = em.merge(menu);
+        return menu;
+    }
+
     public Menu getMenu(Long menuId){
         return em.find(Menu.class, menuId);
     }
@@ -39,7 +47,11 @@ public class MenuEJB {
     public Menu getMenuByDate(LocalDate date){
         Query query = em.createQuery("SELECT menu FROM Menu menu WHERE menu.date = :date");
         query.setParameter("date", date);
-        return (Menu)query.getSingleResult();
+        List<Menu> menus = query.getResultList();
+        if (menus.size() == 0){
+            return null;
+        }
+        return menus.get(0);
     }
 
     public List<Menu> getAllMenus() {

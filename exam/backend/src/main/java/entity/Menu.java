@@ -46,11 +46,6 @@ public class Menu {
         return dishes;
     }
 
-    //TODO: Remove
-    public int getDishSize(){
-        return dishes.size();
-    }
-
     public void setDishes(List<Dish> dishes) {
         this.dishes = dishes;
     }

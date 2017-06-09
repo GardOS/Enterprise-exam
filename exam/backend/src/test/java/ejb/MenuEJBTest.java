@@ -82,4 +82,9 @@ public class MenuEJBTest extends EJBTestBase{
         assertNull(menuEJB.getClosestMenuInPast(yesterday.getDate()));
         assertEquals(menuEJB.getClosestMenuInFuture(yesterday.getDate()).getId(), today.getId());
     }
+
+    @Test
+    public void testGetClosestChangesPriority(){
+
+    }
 }
