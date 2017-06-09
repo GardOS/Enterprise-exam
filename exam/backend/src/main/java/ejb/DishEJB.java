@@ -1,6 +1,7 @@
 package ejb;
 
 import entity.Dish;
+import entity.Menu;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -10,9 +11,6 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by Gard on 07.06.2017.
- */
 @Stateless
 public class DishEJB implements Serializable{
     @PersistenceContext
@@ -35,12 +33,13 @@ public class DishEJB implements Serializable{
 
     public void removeDish(@NotNull Long dishId) {
         Dish dish = em.find(Dish.class, dishId);
-        if (dish != null) {
+        if (dish != null && dish.getMenus().size() == 0) {
             em.remove(dish);
         }
     }
 
     public List<Dish> getAllDishes() {
+        //return em.createNamedQuery(Menu.GET_ALL).getResultList();
         Query query = em.createQuery("SELECT dish FROM Dish dish");
         return query.getResultList();
     }

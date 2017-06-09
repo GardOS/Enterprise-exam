@@ -13,9 +13,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Gard on 07.06.2017.
- */
 @RunWith(Arquillian.class)
 public class MenuEJBTest extends EJBTestBase{
 
@@ -83,8 +80,18 @@ public class MenuEJBTest extends EJBTestBase{
         assertEquals(menuEJB.getClosestMenuInFuture(yesterday.getDate()).getId(), today.getId());
     }
 
+    //Check if the order is: present -> future -> past
     @Test
     public void testGetClosestChangesPriority(){
+        List<Dish> dishes = getListWithPersistedDish();
 
+        Menu yesterday = menuEJB.getMenu(menuEJB.createMenu(LocalDate.now().minusDays(1), dishes));
+        assertEquals(menuEJB.getClosestMenu().getId(), yesterday.getId());
+
+        Menu tomorrow = menuEJB.getMenu(menuEJB.createMenu(LocalDate.now().plusDays(1), dishes));
+        assertEquals(menuEJB.getClosestMenu().getId(), tomorrow.getId());
+
+        Menu today = menuEJB.getMenu(menuEJB.createMenu(LocalDate.now(),dishes));
+        assertEquals(menuEJB.getClosestMenu().getId(), today.getId());
     }
 }

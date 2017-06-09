@@ -32,12 +32,6 @@ public class LoginPageObject extends PageObject{
         }
     }
 
-    public HomePageObject clickCancel(){
-        driver.findElement(By.id("cancel")).click();
-        waitForPageToLoad();
-        return new HomePageObject(driver);
-    }
-
     public CreateUserPageObject clickCreateNewUser(){
         driver.findElement(By.id("createUser")).click();
         waitForPageToLoad();

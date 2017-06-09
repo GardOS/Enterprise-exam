@@ -28,13 +28,17 @@ public class DishPageObject extends PageObject{
         waitForPageToLoad();
     }
 
-    public int getNumberOfDishesWithName(String name){
-        return driver.findElements(By.xpath("//table[@id='dishTable']/tbody/tr")).size();
+    public void clickDelete(String name){
+        List<WebElement> elements = driver.findElements(By.xpath("//table[@id='dishTable']/tbody/tr"));
+        for (WebElement element : elements) {
+            List<WebElement> row = element.findElements(By.xpath(("td")));
+            if (name.equals(row.get(0).getText())){
+                row.get(2).click();
+            }
+        }
     }
 
     public boolean checkIfTableContainsName(String name){
-        //return name.equals(driver.findElement(By.xpath("//table[@id='dishTable']/tbody/tr/td[contains(text(),'" + name + "')]")).getText());
-
         List<WebElement> elements = driver.findElements(By.xpath("//table[@id='dishTable']/tbody/tr"));
         for (WebElement element : elements) {
             List<WebElement> row = element.findElements(By.xpath(("td")));

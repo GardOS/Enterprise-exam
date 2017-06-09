@@ -7,9 +7,6 @@ import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by Gard on 06.06.2017.
- */
 public class MenuPageObject extends PageObject{
     public MenuPageObject(WebDriver driver) {
         super(driver);
@@ -35,6 +32,7 @@ public class MenuPageObject extends PageObject{
         return name.equals(driver.findElement(By.xpath("//table[@id='newMenuForm:dishTable']/tbody/tr/td[contains(text(),'" + name + "')]")).getText());
     }
 
+    // xpath inspiration: http://www.software-testing-tutorials-automation.com/2015/01/selecting-checkbox-from-table-based-on.html
     public boolean checkIfRowHasCheckbox(String name){
         boolean unchecked = driver.findElement(By.xpath("//table[@id='newMenuForm:dishTable']/tbody/tr/td[contains(text(),'" + name + "')]/following-sibling::td/input[@type='checkbox']")).isSelected();
         clickCheckbox(name);

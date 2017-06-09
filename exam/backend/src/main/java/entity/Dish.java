@@ -5,9 +5,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
-/**
- * Created by Gard on 07.06.2017.
- */
 @Entity
 public class Dish {
     @Id

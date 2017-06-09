@@ -11,9 +11,6 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
-/**
- * Created by Gard on 06.06.2017.
- */
 @Stateless
 public class UserEJB implements Serializable{
 
@@ -37,7 +34,6 @@ public class UserEJB implements Serializable{
         user = new User();
         user.setUserId(userId);
 
-        //create a "strong" random string of at least 128 bits, needed for the "salt"
         String salt = getSalt();
         user.setSalt(salt);
 
@@ -67,7 +63,6 @@ public class UserEJB implements Serializable{
 
         return hash.equals(user.getHash()); //check if the computed hash is equal to what stored in the DB
     }
-
 
     public User getUser(String userId){
         return em.find(User.class, userId);

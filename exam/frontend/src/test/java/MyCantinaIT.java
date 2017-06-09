@@ -1,4 +1,5 @@
 import org.junit.Test;
+import org.openqa.selenium.By;
 import po.*;
 
 import java.time.LocalDate;
@@ -7,19 +8,16 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by Gard on 06.06.2017.
- */
 public class MyCantinaIT extends WebTestBase{
 
-    @Test
+   @Test
     public void testHomePage(){
-        home.toStartingPage();
         assertTrue(home.isOnPage());
     }
 
     @Test
     public void testCreateDish(){
+        createAndLogNewUser(getUniqueId());
         DishPageObject dishes = home.toDishes();
         assertTrue(dishes.isOnPage());
 
@@ -34,6 +32,7 @@ public class MyCantinaIT extends WebTestBase{
 
     @Test
     public void testMenu(){
+        createAndLogNewUser(getUniqueId());
         int dishCount = home.countDishesInMenu();
         DishPageObject dishes = home.toDishes();
         assertTrue(dishes.isOnPage());
@@ -72,6 +71,7 @@ public class MyCantinaIT extends WebTestBase{
 
     @Test
     public void testDifferentDates(){
+        createAndLogNewUser(getUniqueId());
         DishPageObject dishes = home.toDishes();
         assertTrue(dishes.isOnPage());
 
@@ -86,34 +86,81 @@ public class MyCantinaIT extends WebTestBase{
         menu.clickCheckbox(dish1);
         menu.createUniqueMenu(LocalDate.now().minusDays(1));
         menu = home.toMenu();
-
         //Menu 2
         menu.clickCheckbox(dish1);
         menu.createUniqueMenu(LocalDate.now());
         menu = home.toMenu();
-
         //Menu 3
         menu.clickCheckbox(dish1);
         menu.createUniqueMenu(LocalDate.now().plusDays(1));
 
         home.clickDefaultLink();
-
         assertEquals("Menu for " + LocalDate.now().toString(), home.getCurrentMenuDate());
 
         home.clickNextLink();
-
         assertEquals("Menu for " + LocalDate.now().plusDays(1).toString(), home.getCurrentMenuDate());
 
         home.clickPreviousLink();
-
         assertEquals("Menu for " + LocalDate.now().toString(), home.getCurrentMenuDate());
 
         home.clickPreviousLink();
-
         assertEquals("Menu for " + LocalDate.now().minusDays(1).toString(), home.getCurrentMenuDate());
     }
 
     //Own tests
+    @Test
+    public void onlyUsersCanCreateDish(){
+        DishPageObject dishes = home.toDishes();
+        assertTrue(dishes.isOnPage());
+        assertTrue(getDriver().findElement(By.id("notLoggedIn")).isDisplayed());
+
+        home.toStartingPage();
+        createAndLogNewUser(getUniqueId());
+
+        dishes = home.toDishes();
+
+        String name = getUniqueId();
+        assertFalse(dishes.checkIfTableContainsName(name));
+        dishes.createUniqueDish(name);
+        assertTrue(dishes.checkIfTableContainsName(name));
+    }
+
+
+    @Test
+    public void testRemoveDish(){
+        createAndLogNewUser(getUniqueId());
+        DishPageObject dishes = home.toDishes();
+        assertTrue(dishes.isOnPage());
+
+        String dishName = getUniqueId();
+        dishes.createUniqueDish(dishName);
+        assertTrue(dishes.checkIfTableContainsName(dishName));
+
+        dishes.clickDelete(dishName);
+
+        assertFalse(dishes.checkIfTableContainsName(dishName));
+
+    }
+    @Test
+    public void testCantRemoveDishInMenu(){
+        createAndLogNewUser(getUniqueId());
+        DishPageObject dishes = home.toDishes();
+        assertTrue(dishes.isOnPage());
+
+        String dishName = getUniqueId();
+        dishes.createUniqueDish(dishName);
+        assertTrue(dishes.checkIfTableContainsName(dishName));
+
+        home.toStartingPage();
+        MenuPageObject menu = home.toMenu();
+        menu.clickCheckbox(dishName);
+        menu.createUniqueMenu(LocalDate.now());
+        dishes = home.toDishes();
+
+        dishes.clickDelete(dishName);
+
+        assertTrue(dishes.checkIfTableContainsName(dishName));
+    }
 
     @Test
     public void testLoginLink(){
@@ -170,4 +217,5 @@ public class MyCantinaIT extends WebTestBase{
         assertNull(home);
         assertTrue(create.isOnPage());
     }
+
 }

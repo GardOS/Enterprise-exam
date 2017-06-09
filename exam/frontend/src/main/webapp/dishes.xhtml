@@ -13,28 +13,24 @@
     <ui:define name="title">Dishes</ui:define>
 
     <ui:define name="content">
-        <!--
         <c:choose>
             <c:when test="#{!loginController.loggedIn}">
-                <h3>You must be logged in to create a dish</h3>
+                <h:outputText value="You must be logged in to create a dish" id="notLoggedIn"/>
             </c:when>
             <c:otherwise>
-            -->
-        <h:form id="newDishForm">
-            <h:panelGrid columns="2">
-                <h:outputLabel value="Dish Name: "/>
-                <h:inputText value="#{dishController.formName}" id="dishName"/>
+                <h:form id="newDishForm">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Dish Name: "/>
+                        <h:inputText value="#{dishController.formName}" id="dishName"/>
 
-                <h:outputLabel value="Dish Description: "/>
-                <h:inputTextarea value="#{dishController.formDescription}" id="dishDescription"/>
-            </h:panelGrid>
+                        <h:outputLabel value="Dish Description: "/>
+                        <h:inputTextarea value="#{dishController.formDescription}" id="dishDescription"/>
+                    </h:panelGrid>
 
-            <h:commandButton value="Create dish" action="#{dishController.createDish}" id="createDish"/>
-        </h:form>
-        <!--
+                    <h:commandButton value="Create dish" action="#{dishController.createDish}" id="createDish"/>
+                </h:form>
             </c:otherwise>
         </c:choose>
-        -->
 
         <hr/>
 
@@ -58,7 +54,7 @@
                         <h:column>
                             <f:facet name="header">Action</f:facet>
                             <h:form>
-                                <h:commandLink value="Delete" action="#{dishController.removeDish(dish.id)}"/>
+                                <h:commandLink value="Delete" id="deleteLink" action="#{dishController.removeDish(dish.id)}"/>
                             </h:form>
                         </h:column>
                     </c:if>

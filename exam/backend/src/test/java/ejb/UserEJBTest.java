@@ -11,9 +11,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by Gard on 06.06.2017.
- */
 @RunWith(Arquillian.class)
 public class UserEJBTest extends EJBTestBase {
 

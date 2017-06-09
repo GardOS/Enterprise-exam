@@ -14,9 +14,6 @@ import javax.ejb.EJB;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Gard on 06.06.2017.
- */
 public abstract class EJBTestBase {
 
     @Deployment

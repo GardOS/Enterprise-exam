@@ -7,9 +7,6 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by Gard on 07.06.2017.
- */
 @RunWith(Arquillian.class)
 public class DishEJBTest extends EJBTestBase {
 

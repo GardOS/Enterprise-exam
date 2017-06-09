@@ -6,7 +6,6 @@ import entity.Menu;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -14,11 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.DataFormatException;
 
-/**
- * Created by Gard on 07.06.2017.
- */
 @Named
 @RequestScoped
 public class MenuController implements Serializable {

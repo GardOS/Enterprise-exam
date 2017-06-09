@@ -3,9 +3,6 @@ package po;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-/**
- * Created by Gard on 06.06.2017.
- */
 public class HomePageObject extends PageObject{
     public HomePageObject(WebDriver driver) {
         super(driver);

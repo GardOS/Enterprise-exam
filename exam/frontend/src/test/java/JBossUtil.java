@@ -12,22 +12,15 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-/**
- * Taken and adapted from:
- *
- * https://antoniogoncalves.org/2014/07/20/your-tests-assume-that-jboss-is-up-and-running/
- */
 public class JBossUtil {
 
     private static ResteasyClient getClient() {
-        // Setting digest credentials
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("admin", "admin");
         credentialsProvider.setCredentials(AuthScope.ANY, credentials);
         HttpClient httpclient = HttpClientBuilder.create().setDefaultCredentialsProvider(credentialsProvider).build();
         ApacheHttpClient4Engine engine = new ApacheHttpClient4Engine(httpclient, true);
 
-        // Creating HTTP client
         return new ResteasyClientBuilder().httpEngine(engine).build();
     }
 

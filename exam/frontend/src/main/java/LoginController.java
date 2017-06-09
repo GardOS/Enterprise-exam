@@ -19,9 +19,6 @@ public class LoginController implements Serializable{
     private String formFirstName;
     private String formLastName;
 
-    /**
-     * The current user registered in this session
-     */
     private String registeredUser;
 
     public LoginController(){}

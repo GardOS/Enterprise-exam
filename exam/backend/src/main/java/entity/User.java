@@ -8,10 +8,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-/**
- * Created by Gard on 06.06.2017.
- */
-
 @Entity
 public class User {
     @Id

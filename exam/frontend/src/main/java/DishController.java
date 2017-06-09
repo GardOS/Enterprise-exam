@@ -7,9 +7,6 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by Gard on 07.06.2017.
- */
 @Named
 @SessionScoped
 public class DishController implements Serializable{

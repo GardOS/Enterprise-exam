@@ -28,7 +28,6 @@ public abstract class PageObject {
     }
 
     public void logout(){
-
         List<WebElement> logout = driver.findElements(By.id("logoutForm:logout"));
         if(!logout.isEmpty()){
             logout.get(0).click();
