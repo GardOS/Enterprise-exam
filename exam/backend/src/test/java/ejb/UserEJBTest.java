@@ -84,8 +84,6 @@ public class UserEJBTest extends EJBTestBase {
         User firstUser = userEJB.getUser(first);
         User secondUser = userEJB.getUser(second);
 
-        //those are EXTREMELY unlikely to be equal, although not impossible...
-        //however, likely more chances to get hit in the head by a meteorite...
         assertNotEquals(firstUser.getHash(), secondUser.getHash());
         assertNotEquals(firstUser.getSalt(), secondUser.getSalt());
     }

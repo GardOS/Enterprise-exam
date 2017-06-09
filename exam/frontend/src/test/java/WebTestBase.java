@@ -27,10 +27,6 @@ public class WebTestBase {
         return driver;
     }
 
-    protected String getPageSource(){
-        return driver.getPageSource();
-    }
-
     private static boolean tryToSetGeckoIfExists(String property, Path path) {
         if (Files.exists(path)) {
             System.setProperty(property, path.toAbsolutePath().toString());
@@ -86,10 +82,6 @@ public class WebTestBase {
         return "unique" + counter.incrementAndGet();
     }
 
-    protected static String getUniqueTitle() {
-        return "uniqueTitle: " + counter.incrementAndGet();
-    }
-
     protected static HomePageObject createAndLogNewUser(String userId){
         return createAndLogNewUser(userId, "name", "surname");
     }
@@ -103,13 +95,6 @@ public class WebTestBase {
 
         assertTrue(home.isLoggedIn(userId));
         return home;
-    }
-
-    protected static void loginExistingUser(String userId) {
-        home.logout();
-        LoginPageObject login = home.toLogin();
-        login.clickLogin(userId, "password");
-        assertTrue(home.isLoggedIn(userId));
     }
 
     @Before

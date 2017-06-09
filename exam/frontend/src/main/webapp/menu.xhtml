@@ -18,21 +18,26 @@
             <c:when test="#{dishController.countDishes() == 0}">
                 <h3>No dishes</h3>
             </c:when>
+            <c:when test="#{!loginController.loggedIn}">
+                <h:outputText value="You must be logged in to create a dish" id="notLoggedIn"/>
+            </c:when>
             <c:otherwise>
-                <h:form id="newMenuForm">
-                    <h:inputText value="#{menuController.formDate}" id="formDate"/>
-                    <h:commandButton value="Create" action="#{menuController.createMenu}" id="createMenu"/>
-                    <h:dataTable value="#{dishController.allDishes}" var="dish" border="1" id="dishTable">
-                        <h:column>
-                            <f:facet name="header">Name</f:facet>
-                            <h:outputText value="#{dish.name}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Include</f:facet>
-                            <h:selectBooleanCheckbox value="#{menuController.dishesInMenu[dish.id]}" id="checkBox"/>
-                        </h:column>
-                    </h:dataTable>
-                </h:form>
+                <c:otherwise>
+                    <h:form id="newMenuForm">
+                        <h:inputText value="#{menuController.formDate}" id="formDate"/>
+                        <h:commandButton value="Create" action="#{menuController.createMenu}" id="createMenu"/>
+                        <h:dataTable value="#{dishController.allDishes}" var="dish" border="1" id="dishTable">
+                            <h:column>
+                                <f:facet name="header">Name</f:facet>
+                                <h:outputText value="#{dish.name}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Include</f:facet>
+                                <h:selectBooleanCheckbox value="#{menuController.dishesInMenu[dish.id]}" id="checkBox"/>
+                            </h:column>
+                        </h:dataTable>
+                    </h:form>
+                </c:otherwise>
             </c:otherwise>
         </c:choose>
     </ui:define>

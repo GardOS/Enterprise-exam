@@ -24,10 +24,6 @@ public class MenuPageObject extends PageObject{
         waitForPageToLoad();
     }
 
-    public int getNumberOfDishesWithName(String name){
-        return driver.findElements(By.xpath("//table[@id='newMenuForm:dishTable']/tbody/tr")).size();
-    }
-
     public boolean checkIfTableContainsName(String name){
         return name.equals(driver.findElement(By.xpath("//table[@id='newMenuForm:dishTable']/tbody/tr/td[contains(text(),'" + name + "')]")).getText());
     }

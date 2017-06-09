@@ -21,6 +21,7 @@ public class MenuEJBTest extends EJBTestBase{
         menuEJB.createMenu(LocalDate.now(), new ArrayList<>());
     }
 
+    //Priority tested further down
     @Test
     public void testGetCurrentMenu(){
         List<Dish> dishes = getListWithPersistedDish();
@@ -80,6 +81,8 @@ public class MenuEJBTest extends EJBTestBase{
         assertEquals(menuEJB.getClosestMenuInFuture(yesterday.getDate()).getId(), today.getId());
     }
 
+    //Own
+
     //Check if the order is: present -> future -> past
     @Test
     public void testGetClosestChangesPriority(){
@@ -93,5 +96,25 @@ public class MenuEJBTest extends EJBTestBase{
 
         Menu today = menuEJB.getMenu(menuEJB.createMenu(LocalDate.now(),dishes));
         assertEquals(menuEJB.getClosestMenu().getId(), today.getId());
+    }
+
+    @Test(expected = EJBException.class)
+    public void testCreateMenuWithEmptyList(){
+        List<Dish> dishes = new ArrayList<>();
+        menuEJB.createMenu(LocalDate.now(), dishes);
+
+        fail();
+    }
+
+    @Test(expected = EJBException.class)
+    public void testPersistWithoutPersistedDish(){
+        List<Dish> dishes = new ArrayList<>();
+        Dish dish = new Dish();
+        dish.setName("name");
+        dishes.add(dish);
+
+        menuEJB.createMenu(LocalDate.now(), dishes);
+
+        fail();
     }
 }

@@ -31,10 +31,6 @@ public class LoginController implements Serializable{
         return registeredUser;
     }
 
-    public User getUser(){
-        return userEJB.getUser(registeredUser);
-    }
-
     public String logOut(){
         registeredUser = null;
         return "home.jsf";

@@ -26,7 +26,6 @@
             <c:otherwise>
                 <c:set var="dateParam" value="#{param['date_param']}"/>
 
-                <!--Check if invalid-->
                 <c:if test="#{menuController.checkIfInvalidDate(dateParam)}">
                     <c:set var="dateParam" value="#{menuController.closestMenu.date.toString()}"/>
                 </c:if>
@@ -44,6 +43,7 @@
                 <p>
                     <h:link value="Show default" outcome="home.jsf" id="defaultLink"/>
                 </p>
+
                 <!--Future-->
                 <p>
                     <c:if test="#{menuController.getClosestMenuInFuture(dateParam) != null}">
@@ -66,17 +66,6 @@
                         </h:column>
                     </h:dataTable>
                 </c:if>
-                <h3><h:outputText value="List of menus"/></h3>
-                <h:dataTable value="#{menuController.allMenus}" var="menu" border="1" id="menuTable2">
-                    <h:column>
-                        <f:facet name="header">ID</f:facet>
-                        <h:outputText value="#{menu.id}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Size</f:facet>
-                        <h:outputText value="#{menu.date}"/>
-                    </h:column>
-                </h:dataTable>
             </c:otherwise>
         </c:choose>
     </ui:define>

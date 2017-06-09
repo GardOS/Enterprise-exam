@@ -9,12 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@NamedQueries({
-        @NamedQuery(name = Menu.GET_ALL, query = "SELECT menu FROM Menu menu"),
-})
 public class Menu {
-
-    public static final String GET_ALL = "MENU_GET_ALL";
 
     @Id
     @GeneratedValue

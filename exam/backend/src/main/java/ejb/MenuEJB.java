@@ -4,6 +4,7 @@ import entity.Dish;
 import entity.Menu;
 
 import javax.ejb.Stateless;
+import javax.el.ELException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -29,39 +30,11 @@ public class MenuEJB {
         return menu.getId();
     }
 
-    public Menu updateMenu(List<Dish> dishes, LocalDate date){
-        Menu menu = getMenuByDate(date);
-        menu.setDishes(dishes);
-        menu = em.merge(menu);
-        return menu;
-    }
-
-    public Menu getMenu(Long menuId){
-        return em.find(Menu.class, menuId);
-    }
-
-    public Menu getMenuByDate(LocalDate date){
-        Query query = em.createQuery("SELECT menu FROM Menu menu WHERE menu.date = :date");
-        query.setParameter("date", date);
-        List<Menu> menus = query.getResultList();
-        if (menus.size() == 0){
-            return null;
-        }
-        return menus.get(0);
-    }
-
-    public List<Menu> getAllMenus() {
-        Query query = em.createQuery("SELECT menu FROM Menu menu");
-        return query.getResultList();
-    }
-
-    //TODO: Optimize
     public Menu getClosestMenu(){
         LocalDate date = LocalDate.now();
+        Menu closestMenu ;
 
-        Menu closestMenu = null;
-
-        closestMenu = getMenu(date, "present");
+        closestMenu = getMenuByDate(date);
         if (closestMenu != null){
             return closestMenu;
         }
@@ -78,46 +51,61 @@ public class MenuEJB {
         return closestMenu;
     }
 
-    // Will not get current date because x.isAfter(x) == false
     public Menu getClosestMenuInFuture(LocalDate date){
-        return getMenu(date, "future");
-    }
-
-    // Will not get current date because x.isBefore(x) == false
-    public Menu getClosestMenuInPast(LocalDate date){
-        return getMenu(date, "past");
-    }
-
-    private Menu getMenu(LocalDate date, String when){
         Menu closestMenu = null;
         Query query = em.createQuery("SELECT menu FROM Menu menu");
         List<Menu> menus = query.getResultList();
 
-        switch (when){
-            case "present":
-                for(Menu menu : menus){
-                    if (menu.getDate().isEqual(date)){
-                        return menu;
-                    }
-                }
-                break;
-
-            case "future":
-                for(Menu menu : menus){
-                    if (menu.getDate().isAfter(date) && (closestMenu == null || menu.getDate().isBefore(closestMenu.getDate()))){
-                        closestMenu = menu;
-                    }
-                }
-                break;
-
-            case "past":
-                for(Menu menu : menus){
-                    if (menu.getDate().isBefore(date) && (closestMenu == null || menu.getDate().isAfter(closestMenu.getDate()))){
-                        closestMenu = menu;
-                    }
-                }
-                break;
+        for(Menu menu : menus){
+            // Will not get current date because x.isAfter(x) == false
+            if (menu.getDate().isAfter(date) && (closestMenu == null || menu.getDate().isBefore(closestMenu.getDate()))){
+                closestMenu = menu;
+            }
         }
         return closestMenu;
     }
+
+    public Menu getClosestMenuInPast(LocalDate date){
+        Menu closestMenu = null;
+        Query query = em.createQuery("SELECT menu FROM Menu menu");
+        List<Menu> menus = query.getResultList();
+
+        for(Menu menu : menus){
+            // Will not get current date because x.isBefore(x) == false
+            if (menu.getDate().isBefore(date) && (closestMenu == null || menu.getDate().isAfter(closestMenu.getDate()))){
+                closestMenu = menu;
+            }
+        }
+        return closestMenu;
+    }
+
+    //Own
+
+    public Menu getMenu(Long menuId){
+        return em.find(Menu.class, menuId);
+    }
+
+    public Menu getMenuByDate(LocalDate date) throws ELException{
+        Query query = em.createQuery("SELECT menu FROM Menu menu WHERE menu.date = :date");
+        query.setParameter("date", date);
+        List<Menu> menus = query.getResultList();
+        //Avoid exception
+        if (menus.size() == 0){
+            return null;
+        }
+        return menus.get(0);
+    }
+
+    public Menu updateMenu(List<Dish> dishes, LocalDate date){
+        Menu menu = getMenuByDate(date);
+        menu.setDishes(dishes);
+        menu = em.merge(menu);
+        return menu;
+    }
+
+    public List<Menu> getAllMenus() {
+        Query query = em.createQuery("SELECT menu FROM Menu menu");
+        return query.getResultList();
+    }
+
 }

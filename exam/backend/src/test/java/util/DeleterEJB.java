@@ -12,11 +12,6 @@ public class DeleterEJB {
     @PersistenceContext
     private EntityManager em;
 
-    public void deleteEntityById(Class<?> entity, Object id){
-        Object obj = em.find(entity, id);
-        em.remove(obj);
-    }
-
     public void deleteEntities(Class<?> entity){
         if(entity == null || entity.getAnnotation(Entity.class) == null){
             throw new IllegalArgumentException("Invalid non-entity class");

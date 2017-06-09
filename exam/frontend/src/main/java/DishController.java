@@ -18,6 +18,10 @@ public class DishController implements Serializable{
     private String formDescription;
 
     public void createDish() {
+        if (formName.isEmpty() || formName.length() > 32){
+            return;
+        }
+
         dishEJB.createDish(formName, formDescription);
     }
 

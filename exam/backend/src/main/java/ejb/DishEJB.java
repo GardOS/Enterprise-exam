@@ -1,7 +1,6 @@
 package ejb;
 
 import entity.Dish;
-import entity.Menu;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -31,6 +30,11 @@ public class DishEJB implements Serializable{
         return em.find(Dish.class, dishId);
     }
 
+    public List<Dish> getAllDishes() {
+        Query query = em.createQuery("SELECT dish FROM Dish dish");
+        return query.getResultList();
+    }
+
     public void removeDish(@NotNull Long dishId) {
         Dish dish = em.find(Dish.class, dishId);
         if (dish != null && dish.getMenus().size() == 0) {
@@ -38,11 +42,7 @@ public class DishEJB implements Serializable{
         }
     }
 
-    public List<Dish> getAllDishes() {
-        //return em.createNamedQuery(Menu.GET_ALL).getResultList();
-        Query query = em.createQuery("SELECT dish FROM Dish dish");
-        return query.getResultList();
-    }
+    //Own
 
     public Long countDishes() {
         Query query = em.createQuery("SELECT COUNT(dish) FROM Dish dish");

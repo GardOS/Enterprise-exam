@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Named
@@ -37,8 +36,12 @@ public class MenuController implements Serializable {
         }
     }
 
-    public String createMenu(){
+    public String createMenu() throws Exception{
         try {
+            if (checkIfInvalidDate(formDate.toString())){
+                return "menu.jsf";
+            }
+
             for (Long id : dishesInMenu.keySet()) {
                 if (dishesInMenu.get(id)) {
                     dishes.add(dishEJB.getDish(id));
@@ -61,10 +64,6 @@ public class MenuController implements Serializable {
         return "home.jsf";
     }
 
-    public List<Menu> getAllMenus(){
-        return menuEJB.getAllMenus();
-    }
-
     public Menu getClosestMenu(){
         return menuEJB.getClosestMenu();
     }
@@ -73,9 +72,7 @@ public class MenuController implements Serializable {
         try{
             LocalDate.parse(date);
             return false;
-        }catch (Exception e){
-
-        }
+        }catch (Exception e){}
         return true;
     }
 
@@ -96,8 +93,10 @@ public class MenuController implements Serializable {
         return formDate.toString();
     }
 
-    public void setFormDate(String formDate) {
-        this.formDate = LocalDate.parse(formDate);
+    public void setFormDate(String formDate){
+        if (!checkIfInvalidDate(formDate)){
+            this.formDate = LocalDate.parse(formDate);
+        }
     }
 
     public Map<Long, Boolean> getDishesInMenu() {

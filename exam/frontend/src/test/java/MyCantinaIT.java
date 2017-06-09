@@ -17,6 +17,7 @@ public class MyCantinaIT extends WebTestBase{
 
     @Test
     public void testCreateDish(){
+        //Cant create dish without being logged in
         createAndLogNewUser(getUniqueId());
         DishPageObject dishes = home.toDishes();
         assertTrue(dishes.isOnPage());
@@ -33,7 +34,6 @@ public class MyCantinaIT extends WebTestBase{
     @Test
     public void testMenu(){
         createAndLogNewUser(getUniqueId());
-        int dishCount = home.countDishesInMenu();
         DishPageObject dishes = home.toDishes();
         assertTrue(dishes.isOnPage());
 
@@ -66,7 +66,8 @@ public class MyCantinaIT extends WebTestBase{
 
         assertTrue(home.checkIfTableContainsName(dish1));
         assertTrue(home.checkIfTableContainsName(dish2));
-        assertEquals(dishCount + 2, home.countDishesInMenu());
+
+        assertEquals(2, home.countDishesInMenu());
     }
 
     @Test
@@ -75,23 +76,23 @@ public class MyCantinaIT extends WebTestBase{
         DishPageObject dishes = home.toDishes();
         assertTrue(dishes.isOnPage());
 
-        String dish1 = getUniqueId();
-        dishes.createUniqueDish(dish1);
+        String dish = getUniqueId();
+        dishes.createUniqueDish(dish);
 
         home = home.toStartingPage();
         MenuPageObject menu = home.toMenu();
         assertTrue(menu.isOnPage());
 
         //Menu 1
-        menu.clickCheckbox(dish1);
+        menu.clickCheckbox(dish);
         menu.createUniqueMenu(LocalDate.now().minusDays(1));
         menu = home.toMenu();
         //Menu 2
-        menu.clickCheckbox(dish1);
+        menu.clickCheckbox(dish);
         menu.createUniqueMenu(LocalDate.now());
         menu = home.toMenu();
         //Menu 3
-        menu.clickCheckbox(dish1);
+        menu.clickCheckbox(dish);
         menu.createUniqueMenu(LocalDate.now().plusDays(1));
 
         home.clickDefaultLink();
@@ -107,7 +108,8 @@ public class MyCantinaIT extends WebTestBase{
         assertEquals("Menu for " + LocalDate.now().minusDays(1).toString(), home.getCurrentMenuDate());
     }
 
-    //Own tests
+    //Own
+
     @Test
     public void onlyUsersCanCreateDish(){
         DishPageObject dishes = home.toDishes();
@@ -141,6 +143,7 @@ public class MyCantinaIT extends WebTestBase{
         assertFalse(dishes.checkIfTableContainsName(dishName));
 
     }
+
     @Test
     public void testCantRemoveDishInMenu(){
         createAndLogNewUser(getUniqueId());
