@@ -56,9 +56,8 @@ so i handled the format in a higher layer.
     - Tests: testCreateValidUser, testCreateUserFailDueToPasswordMismatch.
 - Login-functionality based on User. Tested in frontend/test/MyCantinaIT.
     - Tests: testLoginLink, testLoginWrongUser, testLogin.
-- Permissions on create dish. Tested in frontend/test/MyCantinaIT.
-    - Test: onlyUsersCanCreateDish.
+- Permissions on create dish/menu. Tested in frontend/test/MyCantinaIT.
+    - Test: onlyUsersCanCreateDish/onlyUsersCanCreateMenu.
 - Remove dishes (not if inside menu). Tested in frontend/test/MyCantinaIT.
     - Test: testRemoveDish, testCantRemoveDishInMenu.
-- Remains on page when submitting invalid dish/menu. NOT tested.
-- Permissions on create menu. NOT tested.
+- Remains on page when submitting invalid dish/menu. NOT tested, but still there.

@@ -127,6 +127,38 @@ public class MyCantinaIT extends WebTestBase{
         assertTrue(dishes.checkIfTableContainsName(name));
     }
 
+    @Test
+    public void onlyUsersCanCreateMenu(){
+        createAndLogNewUser(getUniqueId());
+        DishPageObject dishes = home.toDishes();
+        assertTrue(dishes.isOnPage());
+
+        String dish1 = getUniqueId();
+        dishes.createUniqueDish(dish1);
+
+        home = home.toStartingPage();
+        home.logout();
+
+        MenuPageObject menu = home.toMenu();
+        assertTrue(getDriver().findElement(By.id("notLoggedIn")).isDisplayed());
+
+        home.toStartingPage();
+        createAndLogNewUser(getUniqueId());
+
+        menu = home.toMenu();
+        assertTrue(menu.isOnPage());
+        assertTrue(menu.checkIfTableContainsName(dish1));
+        menu.clickCheckbox(dish1);
+
+        menu.createUniqueMenu(LocalDate.now());
+        home.clickDefaultLink();
+
+        assertEquals("Menu for " + LocalDate.now().toString(), home.getCurrentMenuDate());
+
+        assertTrue(home.checkIfTableContainsName(dish1));
+        assertEquals(1, home.countDishesInMenu());
+    }
+
 
     @Test
     public void testRemoveDish(){
