@@ -1,5 +1,8 @@
 #### Enterprise-exam
 
+To viewers: 
+Some of the code is inspired by Andrea Arcuri examples given during lectures(see ref.).
+
 The following structure is similar to jsf/jacoco and earlier exams (see ref.).
 Therefore the location of the packages should not need further description than the model.
 
